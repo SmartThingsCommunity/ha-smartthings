@@ -94,6 +94,8 @@ def build(core: Path, out: Path, *, with_translations: bool) -> None:
             continue
         shutil.copy2(item, out / item.name)
     shutil.copy2(OVERLAY / "retire.py", out / "retire.py")
+    # HACS requires brand assets in the repository, even for a core domain.
+    shutil.copytree(OVERLAY / "brand", out / "brand")
     _patch_init(out / "__init__.py")
 
     overlay = json.loads((OVERLAY / "manifest.json").read_text())
@@ -118,6 +120,10 @@ def build(core: Path, out: Path, *, with_translations: bool) -> None:
         _write_json(out / "translations" / "en.json", translations)
 
 
+def _files(root: Path) -> set[Path]:
+    return {p.relative_to(root) for p in root.rglob("*") if p.is_file()}
+
+
 def main() -> None:
     """Run the sync."""
     parser = argparse.ArgumentParser()
@@ -135,8 +141,12 @@ def main() -> None:
             print(f"Wrote {TARGET.relative_to(ROOT)}")
             return
 
-        expected = {p.name for p in out.iterdir()}
-        actual = {p.name for p in TARGET.iterdir()} - {"translations", "__pycache__"}
+        expected = _files(out)
+        actual = {
+            n
+            for n in _files(TARGET)
+            if n.parts[0] != "translations" and "__pycache__" not in n.parts
+        }
         problems = [f"missing: {n}" for n in sorted(expected - actual)]
         problems += [f"unexpected: {n}" for n in sorted(actual - expected)]
         problems += [

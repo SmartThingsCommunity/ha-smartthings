@@ -40,6 +40,7 @@ It is the core code at the commit in [`CORE_REF`](CORE_REF), plus the overlay in
 - `manifest.json`: adds `version`, `issue_tracker`, `documentation` and `codeowners`, drops `quality_scale`, and turns the exact `pysmartthings` pin into a range, as hassfest requires for custom integrations.
 - `retire.py`, hooked into `async_setup_entry`: shows the repair notice once Home Assistant contains the merged code.
 - `translations/en.json`: the text of that repair notice.
+- `brand/`: the SmartThings icon and logo, which HACS requires in the repository even though core already has them.
 
 To update from core:
 

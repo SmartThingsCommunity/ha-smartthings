@@ -19,28 +19,43 @@ jobs:
         with:
           category: integration
 
+  # The hassfest action validates against Home Assistant stable, which pins an
+  # older pysmartthings than the core PR needs. Build the same image from dev.
   hassfest:
-    name: Hassfest
+    name: Hassfest (Home Assistant dev)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: home-assistant/actions/hassfest@master
+      - uses: actions/checkout@v5
+      - uses: actions/checkout@v5
+        with:
+          repository: home-assistant/core
+          ref: dev
+          path: core
+          persist-credentials: false
+      - name: Build hassfest image
+        run: docker build --file core/script/hassfest/docker/Dockerfile --tag hassfest core
+      - name: Run hassfest
+        run: >-
+          docker run --rm
+          --volume "$GITHUB_WORKSPACE:/github/workspace"
+          --workdir /github/workspace
+          hassfest
 
   matches-core:
     name: Matches core PR
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Read CORE_REF
         id: ref
         run: echo "sha=$(cat CORE_REF)" >> "$GITHUB_OUTPUT"
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           repository: home-assistant/core
           ref: ${{ steps.ref.outputs.sha }}
           path: core
           sparse-checkout: homeassistant/components/smartthings
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.14"
       - run: python3 -I scripts/sync_from_core.py --core core --check
