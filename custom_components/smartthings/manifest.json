@@ -1,0 +1,57 @@
+{
+  "domain": "smartthings",
+  "name": "SmartThings",
+  "categories": [
+    "hubs_protocols.smart_home_hubs"
+  ],
+  "codeowners": [
+    "@SmartThingsCommunity/home-assistant"
+  ],
+  "config_flow": true,
+  "connectivity": [
+    "cloud"
+  ],
+  "dependencies": [
+    "application_credentials"
+  ],
+  "dhcp": [
+    {
+      "hostname": "st*",
+      "macaddress": "24FD5B*"
+    },
+    {
+      "hostname": "smartthings*",
+      "macaddress": "24FD5B*"
+    },
+    {
+      "hostname": "hub*",
+      "macaddress": "24FD5B*"
+    },
+    {
+      "hostname": "hub*",
+      "macaddress": "D052A8*"
+    },
+    {
+      "hostname": "hub*",
+      "macaddress": "286D97*"
+    },
+    {
+      "hostname": "smarthub",
+      "macaddress": "683A48*"
+    },
+    {
+      "hostname": "samsung-*"
+    }
+  ],
+  "documentation": "https://github.com/SmartThingsCommunity/ha-smartthings",
+  "integration_type": "hub",
+  "iot_class": "cloud_push",
+  "issue_tracker": "https://github.com/SmartThingsCommunity/ha-smartthings/issues",
+  "loggers": [
+    "pysmartthings"
+  ],
+  "requirements": [
+    "pysmartthings>=4.1.0,<5"
+  ],
+  "version": "1.0.0rc1"
+}

@@ -1,0 +1,8 @@
+{
+  "issues": {
+    "custom_version_superseded": {
+      "title": "Remove the custom SmartThings integration",
+      "description": "Home Assistant now includes the SmartThings integration this custom version was providing. Remove the custom version and restart Home Assistant to go back to the built-in integration, which keeps receiving updates. Your devices and settings stay in place."
+    }
+  }
+}

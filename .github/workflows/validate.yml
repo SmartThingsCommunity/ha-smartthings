@@ -1,0 +1,46 @@
+name: Validate
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hacs:
+    name: HACS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: hacs/action@main
+        with:
+          category: integration
+
+  hassfest:
+    name: Hassfest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: home-assistant/actions/hassfest@master
+
+  matches-core:
+    name: Matches core PR
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read CORE_REF
+        id: ref
+        run: echo "sha=$(cat CORE_REF)" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v4
+        with:
+          repository: home-assistant/core
+          ref: ${{ steps.ref.outputs.sha }}
+          path: core
+          sparse-checkout: homeassistant/components/smartthings
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - run: python3 -I scripts/sync_from_core.py --core core --check
