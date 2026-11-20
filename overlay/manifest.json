@@ -3,7 +3,7 @@
     "codeowners": ["@SmartThingsCommunity/home-assistant"],
     "documentation": "https://github.com/SmartThingsCommunity/ha-smartthings",
     "issue_tracker": "https://github.com/SmartThingsCommunity/ha-smartthings/issues",
-    "version": "1.0.0rc1"
+    "version": "1.0.0rc2"
   },
   "remove": ["quality_scale"]
 }
