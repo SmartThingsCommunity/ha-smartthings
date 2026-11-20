@@ -7,7 +7,7 @@ It is temporary. The same code is proposed for Home Assistant in [home-assistant
 > [!IMPORTANT]
 > While this version is installed, Home Assistant does not update the built-in SmartThings integration. Report problems in [this repository's issues](https://github.com/SmartThingsCommunity/ha-smartthings/issues), not to Home Assistant.
 
-Requires Home Assistant 2026.10.0 or newer.
+Requires Home Assistant 2026.12 or newer (currently the `dev` branch or a 2026.12 beta). It does not work on 2026.11 or earlier.
 
 ## Install with HACS
 
